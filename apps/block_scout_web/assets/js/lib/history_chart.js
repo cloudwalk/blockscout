@@ -5,7 +5,7 @@ import humps from 'humps'
 import numeral from 'numeral'
 import moment from 'moment'
 import { formatUsdValue } from '../lib/currency'
-import sassVariables from '../../css/app.scss'
+import { dashboardBannerChartAxisFontColor, dashboardLineColorTransactions, dashboardLineColorPrice, dashboardLineColorMarket } from '../../css/export-vars-to-js.module.scss'
 
 Chart.defaults.font.family = 'Nunito, "Helvetica Neue", Arial, sans-serif,"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
 Chart.register(LineController, LineElement, PointElement, LinearScale, TimeScale, Title, Tooltip)
@@ -59,7 +59,7 @@ const config = {
       mode: 'index'
     },
     scales: {
-      x: xAxe(sassVariables.dashboardBannerChartAxisFontColor),
+      x: xAxe(dashboardBannerChartAxisFontColor),
       price: {
         position: 'left',
         grid: grid,
@@ -67,7 +67,7 @@ const config = {
           beginAtZero: true,
           callback: (value, _index, _values) => `$${numeral(value).format('0,0.00')}`,
           maxTicksLimit: 4,
-          color: sassVariables.dashboardBannerChartAxisFontColor
+          color: dashboardBannerChartAxisFontColor
         }
       },
       marketCap: {
@@ -77,7 +77,7 @@ const config = {
           callback: (_value, _index, _values) => '',
           maxTicksLimit: 6,
           drawOnChartArea: false,
-          color: sassVariables.dashboardBannerChartAxisFontColor
+          color: dashboardBannerChartAxisFontColor
         }
       },
       numTransactions: {
@@ -87,7 +87,7 @@ const config = {
           beginAtZero: true,
           callback: (value, _index, _values) => formatValue(value),
           maxTicksLimit: 4,
-          color: sassVariables.dashboardBannerChartAxisFontColor
+          color: dashboardBannerChartAxisFontColor
         }
       }
     },
@@ -166,8 +166,8 @@ function getMarketCapData (marketHistoryData, availableSupply) {
 }
 
 // colors for light and dark theme
-const priceLineColor = sassVariables.dashboardLineColorPrice
-const mcapLineColor = sassVariables.dashboardLineColorMarket
+const priceLineColor = dashboardLineColorPrice
+const mcapLineColor = dashboardLineColorMarket
 
 class MarketHistoryChart {
   constructor (el, availableSupply, _marketHistoryData, dataConfig) {
@@ -217,8 +217,8 @@ class MarketHistoryChart {
       cubicInterpolationMode: 'monotone',
       fill: false,
       pointRadius: 0,
-      backgroundColor: sassVariables.dashboardLineColorTransactions,
-      borderColor: sassVariables.dashboardLineColorTransactions
+      backgroundColor: dashboardLineColorTransactions,
+      borderColor: dashboardLineColorTransactions
       // lineTension: 0
     }
 
@@ -227,8 +227,8 @@ class MarketHistoryChart {
       axes.numTransactions.display = false
     } else if (!priceActivated && !marketCapActivated) {
       axes.numTransactions.position = 'left'
-      this.numTransactions.backgroundColor = sassVariables.dashboardLineColorPrice
-      this.numTransactions.borderColor = sassVariables.dashboardLineColorPrice
+      this.numTransactions.backgroundColor = dashboardLineColorPrice
+      this.numTransactions.borderColor = dashboardLineColorPrice
     }
 
     this.availableSupply = availableSupply

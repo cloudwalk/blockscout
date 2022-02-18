@@ -94,9 +94,13 @@ const appJs =
           test: /\.scss$/,
           use: [
             {
-              loader: MiniCssExtractPlugin.loader
-            }, {
-              loader: 'css-loader'
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                esModule: false,
+              },
+            },
+            {
+              loader: 'css-loader',
             }, {
               loader: 'postcss-loader'
             }, {
