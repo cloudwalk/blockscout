@@ -20,7 +20,7 @@ config :explorer, Explorer.Repo,
   database: database,
   hostname: hostname,
   url: System.get_env("DATABASE_URL"),
-  pool_size: 1,
+  pool_size: pool_size,
   ssl: true,
   timeout: :timer.seconds(80)
 

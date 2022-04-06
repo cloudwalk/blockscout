@@ -2,13 +2,13 @@ import Config
 
 pool_size =
   if System.get_env("DATABASE_READ_ONLY_API_URL"),
-    do: String.to_integer(System.get_env("POOL_SIZE", "1")),
-    else: String.to_integer(System.get_env("POOL_SIZE", "1"))
+    do: String.to_integer(System.get_env("POOL_SIZE", "20")),
+    else: String.to_integer(System.get_env("POOL_SIZE", "20"))
 
 # Configures the database
 config :explorer, Explorer.Repo,
   url: System.get_env("DATABASE_URL"),
-  pool_size: 1,
+  pool_size: pool_size,
   ssl: String.equivalent?(System.get_env("ECTO_USE_SSL") || "true", "true"),
   prepare: :unnamed,
   timeout: :timer.seconds(60)
@@ -20,8 +20,8 @@ database_api_url =
 
 pool_size_api =
   if System.get_env("DATABASE_READ_ONLY_API_URL"),
-    do: String.to_integer(System.get_env("POOL_SIZE_API", "1")),
-    else: String.to_integer(System.get_env("POOL_SIZE_API", "1"))
+    do: String.to_integer(System.get_env("POOL_SIZE_API", "5")),
+    else: String.to_integer(System.get_env("POOL_SIZE_API", "5"))
 
 # Configures API the database
 config :explorer, Explorer.Repo.Replica1,
