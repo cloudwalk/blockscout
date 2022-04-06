@@ -3,6 +3,8 @@ import Config
 database = if System.get_env("DATABASE_URL"), do: nil, else: "explorer_dev"
 hostname = if System.get_env("DATABASE_URL"), do: nil, else: "localhost"
 
+config :logger, level: :debug
+
 database_api_url =
   if System.get_env("DATABASE_READ_ONLY_API_URL"),
     do: System.get_env("DATABASE_READ_ONLY_API_URL"),
@@ -10,15 +12,15 @@ database_api_url =
 
 pool_size =
   if System.get_env("DATABASE_READ_ONLY_API_URL"),
-    do: String.to_integer(System.get_env("POOL_SIZE", "40")),
-    else: String.to_integer(System.get_env("POOL_SIZE", "50"))
+    do: String.to_integer(System.get_env("POOL_SIZE", "1")),
+    else: String.to_integer(System.get_env("POOL_SIZE", "1"))
 
 # Configure your database
 config :explorer, Explorer.Repo,
   database: database,
   hostname: hostname,
   url: System.get_env("DATABASE_URL"),
-  pool_size: 5,
+  pool_size: 1,
   ssl: true,
   timeout: :timer.seconds(80)
 
@@ -27,8 +29,8 @@ hostname_api = if System.get_env("DATABASE_READ_ONLY_API_URL"), do: nil, else: h
 
 pool_size_api =
   if System.get_env("DATABASE_READ_ONLY_API_URL"),
-    do: String.to_integer(System.get_env("POOL_SIZE_API", "50")),
-    else: String.to_integer(System.get_env("POOL_SIZE_API", "10"))
+    do: String.to_integer(System.get_env("POOL_SIZE_API", "1")),
+    else: String.to_integer(System.get_env("POOL_SIZE_API", "1"))
 
 # Configure API database
 config :explorer, Explorer.Repo.Replica1,
