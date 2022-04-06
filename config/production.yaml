@@ -67,6 +67,9 @@ kubernetes:
       value: 'true'
     - name: INDEXER_DISABLE_INTERNAL_TRANSACTIONS_FETCHER
       value: 'true'
+      value: /images/cloudwalk_logo.png
+    - name: LOGO_FOOTER
+      value: /images/cloudwalk_full.png
     resources:
       limits:
         cpu: 1000m
