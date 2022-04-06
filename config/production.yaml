@@ -38,9 +38,9 @@ kubernetes:
     #   targetCPUUtilizationPercentage: 50
     envs:
     - name: ETHEREUM_JSONRPC_WS_URL
-      value: ws://35.215.217.3:9945
+      value: wss://mainnet.cloudwalk.io/ws
     - name: ETHEREUM_JSONRPC_HTTP_URL
-      value: http://35.215.217.3:9933
+      value: https://rpc.mainnet.cloudwalk.io
     - name: ETHEREUM_JSONRPC_VARIANT
       value: geth
     - name: PORT
@@ -51,6 +51,22 @@ kubernetes:
       value: "Mainnet"
     - name: SUPPORTED_CHAINS
       value: '[ { "title": "CloudWalk Testnet", "url": "https://explorer.mainnet.cloudwalk.io/", "test_net?": true } ]'
+    - name: POOL_SIZE
+      value: '5'
+    - name: POOL_SIZE_API
+      value: '5'
+    - name: COIN_NAME
+      value: CWN
+    - name: ENABLE_TXS_STATS
+      value: true
+    - name: SHOW_TXS_CHART
+      value: true
+    - name: CHAIN_ID
+      value: '2009'
+    - name: INDEXER_DISABLE_PENDING_TRANSACTIONS_FETCHER
+      value: true
+    - name: INDEXER_DISABLE_INTERNAL_TRANSACTIONS_FETCHER
+      value: true
     resources:
       limits:
         cpu: 1000m
