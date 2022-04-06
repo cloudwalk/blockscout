@@ -58,9 +58,9 @@ kubernetes:
     - name: LOGO_FOOTER
       value: /images/cloudwalk_full.png
     - name: POOL_SIZE
-      value: 2
+      value: '2'
     - name: POOL_SIZE_API
-      value: 2
+      value: '2'
     resources:
       limits:
         cpu: 1000m
