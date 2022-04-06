@@ -58,15 +58,15 @@ kubernetes:
     - name: COIN_NAME
       value: CWN
     - name: ENABLE_TXS_STATS
-      value: true
+      value: 'true'
     - name: SHOW_TXS_CHART
-      value: true
+      value: 'true'
     - name: CHAIN_ID
       value: '2009'
     - name: INDEXER_DISABLE_PENDING_TRANSACTIONS_FETCHER
-      value: true
+      value: 'true'
     - name: INDEXER_DISABLE_INTERNAL_TRANSACTIONS_FETCHER
-      value: true
+      value: 'true'
     resources:
       limits:
         cpu: 1000m
