@@ -50,7 +50,7 @@ kubernetes:
     - name: SUBNETWORK
       value: "Mainnet"
     - name: SUPPORTED_CHAINS
-      value: '[ { "title": "CloudWalk Testnet", "url": "https://explorer.mainnet.cloudwalk.io/", "test_net?": true } ]'
+      value: '[ { "title": "CloudWalk Mainnet", "url": "https://explorer.mainnet.cloudwalk.io/", "test_net?": false }, { "title": "CloudWalk Testnet", "url": "https://explorer.testnet.cloudwalk.io/", "test_net?": true } ]'
     - name: POOL_SIZE
       value: '5'
     - name: POOL_SIZE_API
