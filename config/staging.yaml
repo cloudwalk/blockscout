@@ -54,7 +54,7 @@ kubernetes:
     - name: SUPPORTED_CHAINS
       value: '[ { "title": "CloudWalk Testnet", "url": "https://explorer.testnet.cloudwalk.io/", "test_net?": true } ]'
     - name: LOGO
-      value: /images/cloudwalk_logo.png
+      value: /images/cloudwalk_full.png
     - name: LOGO_FOOTER
       value: /images/cloudwalk_full.png
     - name: POOL_SIZE

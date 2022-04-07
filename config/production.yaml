@@ -68,7 +68,7 @@ kubernetes:
     - name: INDEXER_DISABLE_INTERNAL_TRANSACTIONS_FETCHER
       value: 'true'
     - name: LOGO
-      value: /images/cloudwalk_logo.png
+      value: /images/cloudwalk_full.png
     - name: LOGO_FOOTER
       value: /images/cloudwalk_full.png
     resources:
