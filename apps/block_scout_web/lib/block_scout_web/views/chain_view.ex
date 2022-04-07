@@ -7,28 +7,6 @@ defmodule BlockScoutWeb.ChainView do
   alias BlockScoutWeb.LayoutView
   alias Explorer.Chain.Supply.TokenBridge
 
-  def logo do
-    Keyword.get(application_config(), :logo_footer)
-  end
-
-  def webapp_url(conn) do
-    :block_scout_web
-    |> Application.get_env(:webapp_url)
-    |> validate_url()
-    |> case do
-      :error -> chain_path(conn, :show)
-      {:ok, url} -> url
-    end
-  end
-
-  def subnetwork_title do
-    Keyword.get(application_config(), :subnetwork) || "Sokol"
-  end
-
-  defp application_config do
-    Application.get_env(:block_scout_web, BlockScoutWeb.Chain)
-  end
-
   defp market_cap(:standard, %{available_supply: available_supply, usd_value: usd_value})
        when is_nil(available_supply) or is_nil(usd_value) do
     Decimal.new(0)
