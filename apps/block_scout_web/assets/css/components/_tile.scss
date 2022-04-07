@@ -14,12 +14,12 @@ $tile-type-progress-bar-color: $primary !default;
 $tile-status-error-reason: #ff7986 !default;
 $tile-status-awaiting-internal-transactions: $warning !default;
 $tile-padding: 1rem;
-$tile-title-color: #333 !default;
+$tile-title-color: #fff !default;
 $tile-body-a-color: #5959d8 !default;
 
-@mixin generate-tile-block($prefix, $color, $label-color: false) {
+@mixin generate-tile-block($prefix, $color, $label-color: false, $accent: #3382FF) {
   &#{ $prefix } {
-    border-left: 4px solid $color;
+    border-left: 4px solid $accent;
 
     .tile-transaction-type-block {
       a {
@@ -48,6 +48,7 @@ $tile-body-a-color: #5959d8 !default;
       border-bottom: 1px solid $color;
       border-right: 1px solid $color;
       border-top: 1px solid $color;
+      border-left: 1px solid $color;
       color: $color;
     }
   }
@@ -117,7 +118,7 @@ $tile-body-a-color: #5959d8 !default;
 }
 
 .tile-bottom-contents {
-  background-color: #f6f7f9;
+  background-color: #121212;
   font-size: 12px;
   line-height: 1.2;
   padding: 0.8rem 1rem;
@@ -187,7 +188,7 @@ $tile-body-a-color: #5959d8 !default;
   }
 
   .tile-title {
-    color: $tile-title-color;
+    color: $tile-title-color !important;
     font-size: 12px;
 
     &-hash {
@@ -200,7 +201,7 @@ $tile-body-a-color: #5959d8 !default;
     }
   }
   border-radius: 4px;
-  border: 1px solid $border-color;
+  border: 1px solid #3e3e3e;
   color: $text-muted;
   flex-grow: 1;
   font-size: 12px;
@@ -224,31 +225,41 @@ $tile-body-a-color: #5959d8 !default;
   );
   @include generate-tile-block(
     ".tile-type-contract-call",
-    $tile-type-contract-call-color
+    $tile-type-contract-call-color,
+    $accent: $tile-type-contract-call-color
   );
   @include generate-tile-block(
     ".tile-type-contract-creation",
-    $tile-type-contract-creation-color
+    $tile-type-contract-creation-color,
+    $accent: $tile-type-contract-creation-color
   );
   @include generate-tile-block(
     ".tile-type-token-transfer",
-    $tile-type-token-transfer-color
+    $tile-type-token-transfer-color,
+    $accent: $tile-type-token-transfer-color
+
   );
   @include generate-tile-block(
     ".tile-type-unique-token",
-    $tile-type-unique-token-color
+    $tile-type-unique-token-color,
+    $accent: $tile-type-unique-token-color
+
   );
   @include generate-tile-block(
     ".tile-type-unique-token-image",
-    $tile-type-unique-token-image-color
+    $tile-type-unique-token-image-color,
+    $accent: $tile-type-unique-token-image-color
   );
   @include generate-tile-block(
     ".tile-type-internal-transaction",
-    $tile-type-internal-transaction-color
+    $tile-type-internal-transaction-color,
+    $accent: $tile-type-internal-transaction-color
   );
   @include generate-tile-block(
     ".tile-type-api-documentation",
-    $tile-type-api-documentation-color
+    $tile-type-api-documentation-color,
+    $accent: $tile-type-api-documentation-color
+
   );
   @include generate-tile-block(
     '[class*="status--error"]',
@@ -344,8 +355,8 @@ $tile-body-a-color: #5959d8 !default;
         padding-right: 6px;
       }
     }
-    .tile-type-block {  
-      overflow: hidden; 
+    .tile-type-block {
+      overflow: hidden;
     }
     .row {
       @include media-breakpoint-down(lg) {
@@ -358,7 +369,7 @@ $tile-body-a-color: #5959d8 !default;
 
 // Loader
 .tile-type-loading {
-  background-color: #fff;
+  background-color: #424242;
   padding-top: 30px;
   padding-bottom: 28px;
 }
@@ -368,7 +379,7 @@ $tile-body-a-color: #5959d8 !default;
   height: 20px;
   width: 100%;
   border-radius: 4px;
-  background-color: #f5f6fa;
+  background-color: #212121;
   overflow: hidden;
   position: relative;
   &:before {
@@ -376,7 +387,7 @@ $tile-body-a-color: #5959d8 !default;
     height: inherit;
     content: '';
     position: absolute;
-    background: linear-gradient(to right, #f5f6fa 2%, #eee 18%, #f5f6fa 33%);
+    background: linear-gradient(to right, #212121 1%, #121212 18%, #212121 33%);
     animation-duration: 1.7s;
     animation-fill-mode: forwards;
     animation-iteration-count: infinite;
@@ -436,9 +447,9 @@ $tile-body-a-color: #5959d8 !default;
     border-radius: 4px;
     overflow: hidden;
     transition: .24s ease-out;
-    border-top: 1px solid #dee2e6;
-    border-right: 1px solid #dee2e6;
-    border-bottom: 1px solid #dee2e6;
+    border-top: 1px solid #424242;
+    border-right: 1px solid #424242;
+    border-bottom: 1px solid #424242;
     pointer-events: none;
     .tile-type-line-up {
       position: absolute;
@@ -459,7 +470,7 @@ $tile-body-a-color: #5959d8 !default;
       left: 0;
       bottom: 0;
       width: 1px;
-      background-color: #dee2e6;
+      background-color: #3382FF;
     }
   }
 }
@@ -570,7 +581,7 @@ $cube-quantity: 5;
 .dark-block-loader {
   width: auto;
   height: 15px;
-  background-color: #e2e5ec;
+  background-color: #424242;
   margin-bottom: 5px;
   border-radius: 4px;
 }

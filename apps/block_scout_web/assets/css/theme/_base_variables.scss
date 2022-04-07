@@ -13,13 +13,13 @@ $common-container-margin: 50px !default;
 $white: #fff !default;
 $gray-100: #f8f9fa !default;
 $gray-200: #e9ecef !default;
-$gray-300: #dee2e6 !default;
+$gray-300: #212121 !default;
 $gray-400: #ced4da !default;
 $gray-500: #828ba0 !default;
 $gray-600: #cdcdcc !default;
 $gray-700: #495057 !default;
 $gray-800: #343a40 !default;
-$gray-900: #212529 !default;
+$gray-900: #FF9D00 !default;
 $black: #000 !default;
 
 $grays: () !default;
@@ -217,7 +217,7 @@ $container-max-widths: (
 
 @include _assert-ascending($container-max-widths, "$container-max-widths");
 
-@media (min-width: 1200px) { 
+@media (min-width: 1200px) {
   .container {
     max-width: 1300px !important;
   }

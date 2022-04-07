@@ -16,12 +16,12 @@ $c-dark-text-color: #8a8dba;
 
 	.navbar.navbar-primary {
 		.navbar-nav {
-		  
+
 		  .nav-link {
 			&:before {
 				background-color: $c-secondary;
 			}
-	  
+
 			&.active,
 			&:hover,
 			&.active-icon {
@@ -178,7 +178,7 @@ $c-dark-text-color: #8a8dba;
 	.btn-line {
 		background-color: transparent;
 		border-color: $c-primary;
-		color: $c-primary;
+		color: #fff;
 		&:hover {
 			border-color: $c-primary;
 			background-color: $c-primary;
@@ -201,7 +201,7 @@ $c-dark-text-color: #8a8dba;
 			background-color: rgba(125, 34, 68, 0.4);
 		}
 	}
-	
+
 	// pagination
 	.pagination-container .pagination .page-link {
 		padding: 15px;
@@ -455,18 +455,18 @@ $c-dark-text-color: #8a8dba;
 	.tooltip-inversed-color.bs-tooltip-auto[x-placement^="top"] .arrow::before {
 		border-top-color: $btn-line-color !important;
 	}
-		
+
 	.tooltip-inversed-color.bs-tooltip-right .arrow::before,
 	.tooltip-inversed-color.bs-tooltip-auto[x-placement^="right"] .arrow::before {
 		border-right-color: $btn-line-color !important;
 	}
-		
+
 	.tooltip-inversed-color.bs-tooltip-bottom .arrow::before,
 	.tooltip-inversed-color.bs-tooltip-auto[x-placement^="bottom"] .arrow::before {
 		border-bottom-color: $btn-line-color !important;
 	}
-		
-		
+
+
 	.tooltip-inversed-color.bs-tooltip-left .arrow::before,
 	.tooltip-inversed-color.bs-tooltip-auto[x-placement^="left"] .arrow::before {
 		border-left-color: $btn-line-color !important;
@@ -489,11 +489,11 @@ $c-dark-text-color: #8a8dba;
 	::-webkit-scrollbar {
 		width: 12px;
 	}
-	 
+
 	::-webkit-scrollbar-track {
-		-webkit-box-shadow: inset 0 0 6px $c-primary; 
+		-webkit-box-shadow: inset 0 0 6px $c-primary;
 	}
-	 
+
 	::-webkit-scrollbar-thumb {
 		background: $c-primary;
 	}
@@ -560,10 +560,10 @@ $c-dark-text-color: #8a8dba;
 		visibility: hidden;
 	}
 
-	.card-body {  
+	.card-body {
 		a:not(.dropdown-item):not(.button):not([data-test=address_hash_link]):not(.alert-link):not([data-test=token_link]):not(#dropdown-tokens):not(.btn-line):not(.page-link) {
 			color: $c-primary;
-	
+
 			&:hover {
 				color: $c-primary;
 			}
@@ -641,14 +641,14 @@ $c-dark-text-color: #8a8dba;
 		background-color: $c-dark-color !important;
 		color: #fff !important;
 	}
-	
+
 	.dropdown-item.active:not(.header),	.dropdown-item:not(.header):hover,	.dropdown-item:not(.header):focus {
 		background-image: none;
 		width: 100%;
 		background-color: $c-dark-color-secondary !important;
 		color: #fff !important;
 	}
-	
+
 	.dropdown-item.active.header,	.dropdown-item.header:hover,	.dropdown-item.header:focus {
 		background-color: $c-dark-color-secondary !important;
 		color: #fff !important;
@@ -656,7 +656,7 @@ $c-dark-text-color: #8a8dba;
 
 	.navbar.navbar-primary {
 		.navbar-nav {
-		  
+
 		  .nav-link {
 			&.active,
 			&:hover,

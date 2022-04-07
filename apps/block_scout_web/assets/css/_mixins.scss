@@ -126,7 +126,7 @@
   }
 }
 
-@mixin btn-line($bg-color: #fff, $text-color: $secondary, $font-size: 12px) {
+@mixin btn-line($bg-color: $primary, $text-color: $primary, $font-size: 12px) {
   -webkit-appearance: none !important;
   align-items: center;
   background-color: $bg-color;
@@ -228,7 +228,7 @@
   }
 
   svg {
-    vertical-align: text-bottom;   
+    vertical-align: text-bottom;
     margin-bottom: -1.1px;
   }
 

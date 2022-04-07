@@ -1,5 +1,5 @@
-$common-link-color: $primary !default;
-$blue: #4b89fb !default;
+$common-link-color: #fff !default;
+$blue: #3382FF !default;
 $success: #34c0ad !default;
 
 body {
@@ -24,7 +24,7 @@ h3 {
 }
 
 h4 {
-  color: $gray-600;
+  color: #fff;
   font-size: 16px;
   font-weight: 300;
   line-height: 24px;
@@ -48,7 +48,7 @@ p {
 }
 
 a {
-  color: $common-link-color;
+  color: #fff;
   text-decoration: none;
 
   &:hover,

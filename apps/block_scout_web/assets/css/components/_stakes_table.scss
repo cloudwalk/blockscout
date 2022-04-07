@@ -1,4 +1,4 @@
-$stakes-table-th-background: #f5f6fa !default;
+$stakes-table-th-background: #424242 !default;
 $stakes-table-cell-separation: 25px !default;
 $stakes-link-color: $primary !default;
 
@@ -94,7 +94,7 @@ $stakes-link-color: $primary !default;
     display: none;
 
     a {
-      color: $primary;
+      color: #fff;
       text-decoration: underline;
 
       &:hover {

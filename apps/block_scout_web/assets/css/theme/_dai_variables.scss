@@ -50,7 +50,7 @@ $tile-type-block-color: $secondary;
 $tile-type-progress-bar-color: $secondary;
 .tile a:hover,
 a.tile-title { color: $secondary !important; }
-.card-body {  
+.card-body {
 	a:not(.dropdown-item):not(.button):not([data-test=address_hash_link]):not(.alert-link):not([data-test=token_link]):not(#dropdown-tokens):not(.btn-line):not(.page-link) {
 		color: $secondary;
 
@@ -108,7 +108,7 @@ $dark-tertiary: #5a77ff;
 .dark-theme-applied .btn-line {
     background-color: transparent!important;
     border-color: $dark-tertiary!important;
-    color: $dark-tertiary!important;
+    color: #fff !important;
 
     &[disabled] {
         &,
@@ -124,7 +124,7 @@ $dark-tertiary: #5a77ff;
     color: $additional-font!important;
 }
 
-.dark-theme-applied .card-body {  
+.dark-theme-applied .card-body {
     a:not(.dropdown-item):not(.button):not([data-test=address_hash_link]):not(.alert-link):not([data-test=token_link]):not(#dropdown-tokens):not(.btn-line):not(.page-link) {
         color: $dark-tertiary;
 
@@ -139,7 +139,7 @@ $dark-tertiary: #5a77ff;
       &:nth-child(1)::before {
         background-color: $dashboard-line-color-price;
       }
-  
+
       &:nth-child(2)::before {
         background-color: $dashboard-line-color-market;
       }

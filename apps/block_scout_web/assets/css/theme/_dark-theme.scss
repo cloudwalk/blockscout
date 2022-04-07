@@ -239,7 +239,7 @@ $dark-stakes-banned-background: #3e314c;
 	.btn-line {
 		background-color: transparent;
 		border-color: $dark-primary;
-		color: $dark-primary;
+		color: #fff;
 		&:hover {
 			border-color: $dark-primary;
 			background-color: $dark-primary;
@@ -405,18 +405,18 @@ $dark-stakes-banned-background: #3e314c;
 	.tooltip-pale-color.bs-tooltip-auto[x-placement^="top"] .arrow::before {
 		border-top-color: rgba(#fff, 0.5) !important;
 	}
-		
+
 	.tooltip-pale-color.bs-tooltip-right .arrow::before,
 	.tooltip-pale-color.bs-tooltip-auto[x-placement^="right"] .arrow::before {
 		border-right-color: rgba(#fff, 0.5) !important;
 	}
-		
+
 	.tooltip-pale-color.bs-tooltip-bottom .arrow::before,
 	.tooltip-pale-color.bs-tooltip-auto[x-placement^="bottom"] .arrow::before {
 		border-bottom-color: rgba(#fff, 0.5) !important;
 	}
-		
-		
+
+
 	.tooltip-pale-color.bs-tooltip-left .arrow::before,
 	.tooltip-pale-color.bs-tooltip-auto[x-placement^="left"] .arrow::before {
 		border-left-color: rgba(#fff, 0.5) !important;
@@ -1051,18 +1051,18 @@ $dark-stakes-banned-background: #3e314c;
 	.tooltip-inversed-color.bs-tooltip-auto[x-placement^="top"] .arrow::before {
 		border-top-color: $btn-line-color !important;
 	}
-		
+
 	.tooltip-inversed-color.bs-tooltip-right .arrow::before,
 	.tooltip-inversed-color.bs-tooltip-auto[x-placement^="right"] .arrow::before {
 		border-right-color: $btn-line-color !important;
 	}
-		
+
 	.tooltip-inversed-color.bs-tooltip-bottom .arrow::before,
 	.tooltip-inversed-color.bs-tooltip-auto[x-placement^="bottom"] .arrow::before {
 		border-bottom-color: $btn-line-color !important;
 	}
-		
-		
+
+
 	.tooltip-inversed-color.bs-tooltip-left .arrow::before,
 	.tooltip-inversed-color.bs-tooltip-auto[x-placement^="left"] .arrow::before {
 		border-left-color: $btn-line-color !important;

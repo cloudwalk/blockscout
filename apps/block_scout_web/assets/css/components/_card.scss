@@ -1,9 +1,9 @@
-$card-background-color: #fff !default;
-$card-tab-active: $primary !default;
+$card-background-color: #212121 !default;
+$card-tab-active: #3382FF !default;
 $card-default-border-radius: 10px !default;
 $card-horizontal-padding: 30px;
 $card-vertical-padding: 30px;
-$card-background-1: $primary !default;
+$card-background-1: #212121 !default;
 $card-background-1-text-color: #fff !default;
 $card-tab-icon-color: #20b760 !default;
 $card-tab-icon-color-active: #fff !default;
@@ -12,7 +12,7 @@ $card-tab-icon-color-active: #fff !default;
   background-color: $card-background-color;
   border-radius: $card-default-border-radius;
   border: none;
-  box-shadow: 0 0 30px 0 rgba(202, 199, 226, 0.5);
+  // box-shadow: 0 0 30px 0 rgba(202, 199, 226, 0.5);
   margin-bottom: $common-container-margin;
 
   .block-details-row {
@@ -55,6 +55,7 @@ $card-tab-icon-color-active: #fff !default;
   font-weight: normal;
   line-height: 1.2rem;
   margin-bottom: 2rem;
+  color:  #fff;
 
   &.lg-card-title {
     @media (max-width: 374px) {
@@ -89,7 +90,7 @@ $card-tab-icon-color-active: #fff !default;
 }
 
 .card-subtitle {
-  color: #333;
+  color: #3382FF;
   font-size: 12px;
   font-weight: normal;
   line-height: 1.2;
@@ -204,7 +205,7 @@ $card-tab-icon-color-active: #fff !default;
 .card-tab {
   align-items: center;
   background-color: $card-background-color;
-  color: #333;
+  color: #c3c3c3;
   cursor: pointer;
   display: flex;
   font-size: 14px;
@@ -267,7 +268,7 @@ $card-tab-icon-color-active: #fff !default;
 .mob-transaction {
   @include media-breakpoint-down(sm) {
     margin-left: 15px!important;
-  } 
+  }
 }
 
 .implementation-container {
