@@ -52,15 +52,15 @@ kubernetes:
     - name: SUPPORTED_CHAINS
       value: '[ { "title": "CloudWalk Mainnet", "url": "https://explorer.mainnet.cloudwalk.io/", "test_net?": false }, { "title": "CloudWalk Testnet", "url": "https://explorer.testnet.cloudwalk.io/", "test_net?": true } ]'
     - name: POOL_SIZE
-      value: '5'
+      value: '15'
     - name: POOL_SIZE_API
-      value: '5'
+      value: '15'
     - name: COIN_NAME
       value: CWN
-    - name: ENABLE_TXS_STATS
-      value: 'true'
-    - name: SHOW_TXS_CHART
-      value: 'true'
+#    - name: ENABLE_TXS_STATS
+#      value: 'true'
+#    - name: SHOW_TXS_CHART
+#      value: 'true'
     - name: CHAIN_ID
       value: '2009'
     - name: INDEXER_DISABLE_PENDING_TRANSACTIONS_FETCHER
