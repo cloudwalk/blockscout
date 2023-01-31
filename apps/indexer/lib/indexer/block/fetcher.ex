@@ -245,9 +245,9 @@ defmodule Indexer.Block.Fetcher do
   def async_import_block_rewards([]), do: :ok
 
   def async_import_block_rewards(errors) when is_list(errors) do
-    # errors
-    # |> block_reward_errors_to_block_numbers()
-    # # |> BlockReward.async_fetch()
+    errors
+    |> block_reward_errors_to_block_numbers()
+    |> BlockReward.async_fetch()
   end
 
   def async_import_coin_balances(%{addresses: addresses}, %{
