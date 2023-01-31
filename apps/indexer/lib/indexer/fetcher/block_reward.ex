@@ -37,48 +37,46 @@ defmodule Indexer.Fetcher.BlockReward do
   Asynchronously fetches block rewards for each `t:Explorer.Chain.Explorer.block_number/0`` in `block_numbers`.
   """
   @spec async_fetch([Block.block_number()]) :: :ok
-  def async_fetch(block_numbers) when is_list(block_numbers) do
+  # def async_fetch(block_numbers) when is_list(block_numbers) do
     # if BlockRewardSupervisor.disabled?() do
     #   :ok
     # else
     #   BufferedTask.buffer(__MODULE__, block_numbers)
     # end
-    :ok
-  end
+  # end
 
   @doc false
   # credo:disable-for-next-line Credo.Check.Design.DuplicatedCode
-  def child_spec([init_options, gen_server_options]) do
-    {state, mergeable_init_options} = Keyword.pop(init_options, :json_rpc_named_arguments)
+  # def child_spec([init_options, gen_server_options]) do
+    # {state, mergeable_init_options} = Keyword.pop(init_options, :json_rpc_named_arguments)
 
-    unless state do
-      raise ArgumentError,
-            ":json_rpc_named_arguments must be provided to `#{__MODULE__}.child_spec " <>
-              "to allow for json_rpc calls when running."
-    end
+    # unless state do
+    #   raise ArgumentError,
+    #         ":json_rpc_named_arguments must be provided to `#{__MODULE__}.child_spec " <>
+    #           "to allow for json_rpc calls when running."
+    # end
 
-    merged_init_options =
-      @defaults
-      |> Keyword.merge(mergeable_init_options)
-      |> Keyword.put(:state, state)
+    # merged_init_options =
+    #   @defaults
+    #   |> Keyword.merge(mergeable_init_options)
+    #   |> Keyword.put(:state, state)
 
-    Supervisor.child_spec({BufferedTask, [{__MODULE__, merged_init_options}, gen_server_options]}, id: __MODULE__)
-  end
+    # Supervisor.child_spec({BufferedTask, [{__MODULE__, merged_init_options}, gen_server_options]}, id: __MODULE__)
+  # end
 
   @impl BufferedTask
-  def init(initial, reducer, _) do
+  # def init(initial, reducer, _) do
     # {:ok, final} =
     #   Chain.stream_blocks_without_rewards(initial, fn %{number: number}, acc ->
     #     reducer.(number, acc)
     #   end)
 
     # final
-    :ok
-  end
+  # end
 
   @impl BufferedTask
   @decorate trace(name: "fetch", resource: "Indexer.Fetcher.BlockReward.run/2", service: :indexer, tracer: Tracer)
-  def run(entries, json_rpc_named_arguments) do
+  # def run(entries, json_rpc_named_arguments) do
     # hash_string_by_number =
     #   entries
     #   |> Enum.uniq()
@@ -111,16 +109,15 @@ defmodule Indexer.Fetcher.BlockReward do
 
     #     {:retry, consensus_numbers}
     # end
-    :ok
-  end
+  # end
 
-  defp hash_string_by_number(numbers) when is_list(numbers) do
-    numbers
-    |> Chain.block_hash_by_number()
-    |> Enum.into(%{}, fn {number, hash} ->
-      {number, to_string(hash)}
-    end)
-  end
+  # defp hash_string_by_number(numbers) when is_list(numbers) do
+  #   numbers
+  #   |> Chain.block_hash_by_number()
+  #   |> Enum.into(%{}, fn {number, hash} ->
+  #     {number, to_string(hash)}
+  #   end)
+  # end
 
   # defp run_fetched_beneficiaries(%FetchedBeneficiaries{params_set: params_set, errors: errors}, hash_string_by_number) do
   #   params_set
@@ -264,7 +261,7 @@ defmodule Indexer.Fetcher.BlockReward do
     # |> Enum.uniq()
   end
 
-  defp import_block_reward_params(block_rewards_params) when is_list(block_rewards_params) do
+  # defp import_block_reward_params(block_rewards_params) when is_list(block_rewards_params) do
     # addresses_params = Addresses.extract_addresses(%{block_reward_contract_beneficiaries: block_rewards_params})
     # address_coin_balances_params_set = AddressCoinBalances.params_set(%{beneficiary_params: block_rewards_params})
 
@@ -292,52 +289,52 @@ defmodule Indexer.Fetcher.BlockReward do
     #   address_coin_balances_daily: %{params: address_coin_balances_daily_params_set},
     #   block_rewards: %{params: block_rewards_params}
     # })
-  end
+  # end
 
-  defp retry_beneficiaries_params(beneficiaries_params) when is_list(beneficiaries_params) do
-    # entries = Enum.map(beneficiaries_params, & &1.block_number)
+  # defp retry_beneficiaries_params(beneficiaries_params) when is_list(beneficiaries_params) do
+  #   entries = Enum.map(beneficiaries_params, & &1.block_number)
 
-    # {:retry, entries}
-  end
+  #   {:retry, entries}
+  # end
 
-  defp retry_errors([]), do: :ok
+  # defp retry_errors([]), do: :ok
 
-  defp retry_errors(errors) when is_list(errors) do
-    # retried_entries = fetched_beneficiaries_errors_to_entries(errors)
+  # defp retry_errors(errors) when is_list(errors) do
+  #   retried_entries = fetched_beneficiaries_errors_to_entries(errors)
 
-    # Logger.error(
-    #   fn ->
-    #     [
-    #       "failed to fetch: ",
-    #       fetched_beneficiaries_errors_to_iodata(errors)
-    #     ]
-    #   end,
-    #   error_count: Enum.count(retried_entries)
-    # )
+  #   Logger.error(
+  #     fn ->
+  #       [
+  #         "failed to fetch: ",
+  #         fetched_beneficiaries_errors_to_iodata(errors)
+  #       ]
+  #     end,
+  #     error_count: Enum.count(retried_entries)
+  #   )
 
-    # {:retry, retried_entries}
-  end
+  #   {:retry, retried_entries}
+  # end
 
-  defp fetched_beneficiaries_errors_to_entries(errors) when is_list(errors) do
-    # Enum.map(errors, &fetched_beneficiary_error_to_entry/1)
-  end
+  # defp fetched_beneficiaries_errors_to_entries(errors) when is_list(errors) do
+  #   Enum.map(errors, &fetched_beneficiary_error_to_entry/1)
+  # end
 
-  defp fetched_beneficiary_error_to_entry(%{data: %{block_quantity: block_quantity}}) when is_binary(block_quantity) do
-    # quantity_to_integer(block_quantity)
-  end
+  # defp fetched_beneficiary_error_to_entry(%{data: %{block_quantity: block_quantity}}) when is_binary(block_quantity) do
+  #   quantity_to_integer(block_quantity)
+  # end
 
-  defp fetched_beneficiaries_errors_to_iodata(errors) when is_list(errors) do
-    # fetched_beneficiaries_errors_to_iodata(errors, [])
-  end
+  # defp fetched_beneficiaries_errors_to_iodata(errors) when is_list(errors) do
+  #   fetched_beneficiaries_errors_to_iodata(errors, [])
+  # end
 
-  defp fetched_beneficiaries_errors_to_iodata([], iodata), do: iodata
+  # defp fetched_beneficiaries_errors_to_iodata([], iodata), do: iodata
 
-  defp fetched_beneficiaries_errors_to_iodata([error | errors], iodata) do
-    # fetched_beneficiaries_errors_to_iodata(errors, [iodata | fetched_beneficiary_error_to_iodata(error)])
-  end
+  # defp fetched_beneficiaries_errors_to_iodata([error | errors], iodata) do
+  #   fetched_beneficiaries_errors_to_iodata(errors, [iodata | fetched_beneficiary_error_to_iodata(error)])
+  # end
 
-  defp fetched_beneficiary_error_to_iodata(%{code: code, message: message, data: %{block_quantity: block_quantity}})
-    #    when is_integer(code) and is_binary(message) and is_binary(block_quantity) do
-    # ["@", quantity_to_integer(block_quantity), ": (", to_string(code), ") ", message, ?\n]
-  end
+  # defp fetched_beneficiary_error_to_iodata(%{code: code, message: message, data: %{block_quantity: block_quantity}})
+  #      when is_integer(code) and is_binary(message) and is_binary(block_quantity) do
+  #   ["@", quantity_to_integer(block_quantity), ": (", to_string(code), ") ", message, ?\n]
+  # end
 end
