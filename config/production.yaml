@@ -62,6 +62,10 @@ kubernetes:
       value: '15'
     - name: POOL_SIZE_API
       value: '15'
+    - name: QUEUE_TARGET
+      value: '5000'
+    - name: QUEUE_INTERVAL
+      value: '10000'
     resources:
       limits:
         cpu: 3000m
