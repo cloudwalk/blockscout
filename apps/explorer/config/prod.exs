@@ -8,12 +8,12 @@ pool_size =
 # Configures the database
 config :explorer, Explorer.Repo,
   url: System.get_env("DATABASE_URL"),
-  pool_size: String.to_integer(System.get_env("POOL_SIZE")),
+  pool_size: String.to_integer(System.get_env("POOL_SIZE", "20")),
   ssl: String.equivalent?(System.get_env("ECTO_USE_SSL") || "true", "true"),
   prepare: :unnamed,
   timeout: :timer.seconds(60),
-  queue_interval: System.get_env("QUEUE_INTERVAL"),
-  queue_target: System.get_env("QUEUE_TARGET")
+  queue_interval: String.to_integer(System.get_env("QUEUE_INTERVAL", "1000")),
+  queue_target: String.to_integer(System.get_env("QUEUE_TARGET", "50"))
 
 database_api_url =
   if System.get_env("DATABASE_READ_ONLY_API_URL"),
