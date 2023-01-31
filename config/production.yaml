@@ -26,35 +26,24 @@ kubernetes:
       provider: gcpsm
     imageRepoName: blockscout
     kind: deployment
-    replicas: 2
-    # hpa:
-    #   antiAffinity:
-    #     type: required
-    #     conditions:
-    #       - key: app
-    #         value: blockscout
-    #   maxReplicas: 5
-    #   minReplicas: 1
-    #   targetCPUUtilizationPercentage: 50
+    replicas: 1
     envs:
-    - name: POOL_SIZE
-      value: '15'
-    - name: POOL_SIZE_API
-      value: '15'
     - name: ETHEREUM_JSONRPC_WS_URL
-      value: ws://35.215.217.3:9945
+      value: ws://cloudwalk-network-bs.cloudwalk-network-production:9946
     - name: ETHEREUM_JSONRPC_HTTP_URL
-      value: http://35.215.217.3:9933
+      value: http://cloudwalk-network-bs.cloudwalk-network-production:9934
     - name: ETHEREUM_JSONRPC_VARIANT
       value: geth
     - name: PORT
-      value: "4000"
+      value: '4000'
     - name: NETWORK
-      value: "CloudWalk"
+      value: CloudWalk
     - name: SUBNETWORK
-      value: "Mainnet"
+      value: Mainnet
     - name: SUPPORTED_CHAINS
-      value: '[ { "title": "CloudWalk Mainnet", "url": "https://explorer.mainnet.cloudwalk.io/", "test_net?": false }, { "title": "CloudWalk Testnet", "url": "https://explorer.testnet.cloudwalk.io/", "test_net?": true } ]'
+      value: '[ { "title": "CloudWalk Mainnet", "url": "https://explorer.mainnet.cloudwalk.io/",
+        "test_net?": false }, { "title": "CloudWalk Testnet", "url": "https://explorer.testnet.cloudwalk.io/",
+        "test_net?": true } ]'
     - name: LOGO
       value: /images/cloudwalk_full.png
     - name: LOGO_FOOTER
@@ -69,17 +58,20 @@ kubernetes:
       value: 'true'
     - name: TRACE_LAST_BLOCK
       value: '0'
+    - name: POOL_SIZE
+      value: '15'
+    - name: POOL_SIZE_API
+      value: '15'
     resources:
       limits:
-        cpu: 1000m
+        cpu: 3000m
         memory: 4Gi
       requests:
-        cpu: 1000m
+        cpu: 3000m
         memory: 3Gi
     service:
-      istio: false
       healthcheck:
-        initialDelaySeconds: 240
+        initialDelaySeconds: 30
         interval: 10
         path: /
         port: 4000
