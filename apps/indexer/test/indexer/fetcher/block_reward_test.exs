@@ -61,13 +61,13 @@ defmodule Indexer.Fetcher.BlockRewardTest do
   end
 
   describe "async_fetch/1" do
-    setup %{json_rpc_named_arguments: json_rpc_named_arguments} do
-      BlockReward.Supervisor.Case.start_supervised!(json_rpc_named_arguments: json_rpc_named_arguments)
+    # setup %{json_rpc_named_arguments: json_rpc_named_arguments} do
+    #   BlockReward.Supervisor.Case.start_supervised!(json_rpc_named_arguments: json_rpc_named_arguments)
 
-      block = insert(:block)
+    #   block = insert(:block)
 
-      %{block: block}
-    end
+    #   %{block: block}
+    # end
 
     test "with consensus block without reward", %{
       block: %Block{
