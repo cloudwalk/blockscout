@@ -36,7 +36,7 @@ defmodule Indexer.Fetcher.BlockReward do
   @doc """
   Asynchronously fetches block rewards for each `t:Explorer.Chain.Explorer.block_number/0`` in `block_numbers`.
   """
-  @spec async_fetch([Block.block_number()]) :: :ok
+  # @spec async_fetch([Block.block_number()]) :: :ok
   # def async_fetch(block_numbers) when is_list(block_numbers) do
     # if BlockRewardSupervisor.disabled?() do
     #   :ok
@@ -64,7 +64,7 @@ defmodule Indexer.Fetcher.BlockReward do
     # Supervisor.child_spec({BufferedTask, [{__MODULE__, merged_init_options}, gen_server_options]}, id: __MODULE__)
   # end
 
-  @impl BufferedTask
+  # @impl BufferedTask
   # def init(initial, reducer, _) do
     # {:ok, final} =
     #   Chain.stream_blocks_without_rewards(initial, fn %{number: number}, acc ->
@@ -74,8 +74,8 @@ defmodule Indexer.Fetcher.BlockReward do
     # final
   # end
 
-  @impl BufferedTask
-  @decorate trace(name: "fetch", resource: "Indexer.Fetcher.BlockReward.run/2", service: :indexer, tracer: Tracer)
+  # @impl BufferedTask
+  # @decorate trace(name: "fetch", resource: "Indexer.Fetcher.BlockReward.run/2", service: :indexer, tracer: Tracer)
   # def run(entries, json_rpc_named_arguments) do
     # hash_string_by_number =
     #   entries
