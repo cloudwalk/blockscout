@@ -11,7 +11,9 @@ config :explorer, Explorer.Repo,
   pool_size: String.to_integer(System.get_env("POOL_SIZE")),
   ssl: String.equivalent?(System.get_env("ECTO_USE_SSL") || "true", "true"),
   prepare: :unnamed,
-  timeout: :timer.seconds(60)
+  timeout: :timer.seconds(60),
+  queue_target: System.get_env("QUEUE_TARGET")
+  queue_interval: System.get_env("QUEUE_INTERVAL")
 
 database_api_url =
   if System.get_env("DATABASE_READ_ONLY_API_URL"),
