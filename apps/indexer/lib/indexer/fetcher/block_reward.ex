@@ -19,7 +19,7 @@ defmodule Indexer.Fetcher.BlockReward do
   alias Explorer.Chain.{Block, Wei}
   alias Explorer.Chain.Cache.Accounts
   alias Indexer.{BufferedTask, Tracer}
-  # alias Indexer.Fetcher.BlockReward.Supervisor, as: BlockRewardSupervisor
+  alias Indexer.Fetcher.BlockReward.Supervisor, as: BlockRewardSupervisor
   alias Indexer.Fetcher.CoinBalance
   alias Indexer.Transform.{AddressCoinBalances, AddressCoinBalancesDaily, Addresses}
 

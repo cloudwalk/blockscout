@@ -69,7 +69,7 @@ coin_balance_on_demand_fetcher_threshold =
 
 config :indexer, Indexer.Fetcher.CoinBalanceOnDemand, threshold: coin_balance_on_demand_fetcher_threshold
 
-# config :indexer, Indexer.Fetcher.ReplacedTransaction.Supervisor, disabled?: true
+config :indexer, Indexer.Fetcher.ReplacedTransaction.Supervisor, disabled?: true
 # if System.get_env("POS_STAKING_CONTRACT") do
   # config :indexer, Indexer.Fetcher.BlockReward.Supervisor, disabled?: true
 # else

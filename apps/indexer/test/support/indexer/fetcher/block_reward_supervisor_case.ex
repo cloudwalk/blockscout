@@ -1,5 +1,5 @@
 defmodule Indexer.Fetcher.BlockReward.Supervisor.Case do
-  # alias Indexer.Fetcher.BlockReward
+  alias Indexer.Fetcher.BlockReward
 
   # def start_supervised!(fetcher_arguments \\ []) when is_list(fetcher_arguments) do
   #   merged_fetcher_arguments =
