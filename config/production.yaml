@@ -66,13 +66,15 @@ kubernetes:
       value: '5000'
     - name: QUEUE_INTERVAL
       value: '10000'
+    - name: INDEXER_MEMORY_LIMIT
+      value: '5Gb'
     resources:
       limits:
-        cpu: 3000m
-        memory: 4Gi
+        cpu: 12000m
+        memory: 12Gi
       requests:
-        cpu: 3000m
-        memory: 3Gi
+        cpu: 12000m
+        memory: 12Gi
     service:
       healthcheck:
         initialDelaySeconds: 30

@@ -56,6 +56,8 @@ kubernetes:
       value: 4.1.1-beta
     - name: RELEASE_LINK
       value: https://github.com/cloudwalk/blockscout/releases/tag/v4.1.1-beta
+    - name: INDEXER_MEMORY_LIMIT
+      value: '2Gb'
     resources:
       limits:
         cpu: 1000m
