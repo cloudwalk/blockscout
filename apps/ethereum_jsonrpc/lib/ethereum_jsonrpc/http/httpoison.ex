@@ -9,7 +9,7 @@ defmodule EthereumJSONRPC.HTTP.HTTPoison do
 
   @impl HTTP
   def json_rpc(url, json, options) when is_binary(url) and is_list(options) do
-    case HTTPoison.post(url, json, [{"Content-Type", "application/json"}], options) do
+    case HTTPoison.post(url, json, [{"Content-Type", "application/json"}, {"x-client", "blockscout"}], options) do
       {:ok, %HTTPoison.Response{body: body, status_code: status_code}} ->
         {:ok, %{body: body, status_code: status_code}}
 
