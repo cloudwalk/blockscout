@@ -8,9 +8,9 @@ kubernetes:
       appsFolder: apps-config
       argoCDValues: helms/argocd/values.yaml
     containerRegistry:
-      url: gcr.io/infinitepay-issuing
+      url: gcr.io/infinitepay-testnet
     deployConfig:
-      cluster: infinitepay-issuing-staging
+      cluster: infinitepay-testnet
       environment: staging
       steps:
       - build
@@ -19,51 +19,114 @@ kubernetes:
       - deploy
       service:
         asmRevision: asm-managed
+      version: 03ea334de5bbcf39c2e08ce9f958f3a6420eb97d
   apps:
-  - name: blockscout
+  - name: blockscoutapp
     secretsManager:
       enabled: true
       provider: gcpsm
     imageRepoName: blockscout
-    strategy:
-      type: recreate
     kind: deployment
     replicas: 1
-    # hpa:
-    #   antiAffinity:
-    #     type: required
-    #     conditions:
-    #       - key: app
-    #         value: blockscout
-    #   maxReplicas: 5
-    #   minReplicas: 1
-    #   targetCPUUtilizationPercentage: 50
     envs:
     - name: ETHEREUM_JSONRPC_WS_URL
-      value: wss://testnet.cloudwalk.io/ws
+      value: ws://10.30.159.129:3000?app=blockscout
     - name: ETHEREUM_JSONRPC_HTTP_URL
-      value: https://rpc.testnet.cloudwalk.io
+      value: http://10.30.159.129:3000
     - name: ETHEREUM_JSONRPC_VARIANT
       value: geth
     - name: PORT
-      value: "4000"
+      value: '4000'
     - name: NETWORK
-      value: "CloudWalk"
+      value: CloudWalk
     - name: SUBNETWORK
-      value: "Testnet"
+      value: Testnet
     - name: SUPPORTED_CHAINS
-      value: '[ { "title": "CloudWalk Mainnet", "url": "https://explorer.mainnet.cloudwalk.io/", "test_net?": false }, { "title": "CloudWalk Testnet", "url": "https://explorer.testnet.cloudwalk.io/", "test_net?": true } ]'
+      value: '[ { "title": "CloudWalk Mainnet", "url": "https://explorer.mainnet.cloudwalk.io/",
+        "test_net?": false }, { "title": "CloudWalk Testnet", "url": "https://explorer.testnet.cloudwalk.io/",
+        "test_net?": true } ]'
     - name: LOGO
       value: /images/cloudwalk_full.png
     - name: LOGO_FOOTER
       value: /images/cloudwalk_full.png
     - name: POOL_SIZE
-      value: '5'
+      value: '50'
     - name: POOL_SIZE_API
-      value: '5'
+      value: '50'
     - name: INDEXER_DISABLE_PENDING_TRANSACTIONS_FETCHER
       value: 'true'
     - name: INDEXER_DISABLE_INTERNAL_TRANSACTIONS_FETCHER
+      value: 'true'
+    - name: INDEXER_DISABLE_BLOCK_REWARD_FETCHER
+      value: 'true'
+    - name: BLOCKSCOUT_VERSION
+      value: 4.1.1-beta
+    - name: RELEASE_LINK
+      value: https://github.com/cloudwalk/blockscout/releases/tag/v4.1.1-beta
+    - name: INDEXER_MEMORY_LIMIT
+      value: '4Gb'
+    - name: DISABLE_EXCHANGE_RATES
+      value: 'true'
+    resources:
+      limits:
+        cpu: 3000m
+        memory: 5Gi
+      requests:
+        cpu: 3000m
+        memory: 5Gi
+    service:
+      istio: false
+      healthcheck:
+        initialDelaySeconds: 60
+        interval: 10
+        path: /
+        port: 4000
+        timeoutSeconds: 15
+      ports:
+      - containerPort: 4000
+        name: app2
+        virtualservice:
+          gateway: internal
+          hosts:
+          - explorer.testnet.cloudwalk.io
+          - explorer.testnet.cloudwalk.network
+  - name: blockscoutledger
+    secretsManager:
+      enabled: true
+      provider: gcpsm
+    imageRepoName: blockscout
+    kind: deployment
+    replicas: 1
+    envs:
+    - name: ETHEREUM_JSONRPC_WS_URL
+      value: ws://10.30.159.167:3000?app=blockscout
+    - name: ETHEREUM_JSONRPC_HTTP_URL
+      value: http://10.30.159.167:3000
+    - name: ETHEREUM_JSONRPC_VARIANT
+      value: geth
+    - name: PORT
+      value: '4000'
+    - name: NETWORK
+      value: CloudWalk
+    - name: SUBNETWORK
+      value: Testnet
+    - name: SUPPORTED_CHAINS
+      value: '[ { "title": "CloudWalk Mainnet", "url": "https://explorer.mainnet.cloudwalk.io/",
+        "test_net?": false }, { "title": "CloudWalk Testnet", "url": "https://explorer.testnet.cloudwalk.io/",
+        "test_net?": true } ]'
+    - name: LOGO
+      value: /images/cloudwalk_full.png
+    - name: LOGO_FOOTER
+      value: /images/cloudwalk_full.png
+    - name: POOL_SIZE
+      value: '50'
+    - name: POOL_SIZE_API
+      value: '50'
+    - name: INDEXER_DISABLE_PENDING_TRANSACTIONS_FETCHER
+      value: 'true'
+    - name: INDEXER_DISABLE_INTERNAL_TRANSACTIONS_FETCHER
+      value: 'true'
+    - name: INDEXER_DISABLE_BLOCK_REWARD_FETCHER
       value: 'true'
     - name: BLOCKSCOUT_VERSION
       value: 4.1.1-beta
@@ -81,16 +144,16 @@ kubernetes:
     service:
       istio: false
       healthcheck:
-        initialDelaySeconds: 300
+        initialDelaySeconds: 60
         interval: 10
         path: /
         port: 4000
         timeoutSeconds: 15
       ports:
-        - containerPort: 4000
-          name: app
-          virtualservice:
-            gateway: default
-            hosts:
-              - blockscout.stg.services.issuing.infinitepay.io
-              - explorer.testnet.cloudwalk.io
+      - containerPort: 4000
+        name: app3
+        virtualservice:
+          gateway: internal
+          hosts:
+          - explorer-ledger.testnet.cloudwalk.io
+          - explorer-ledger.testnet.cloudwalk.network

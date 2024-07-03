@@ -8,9 +8,9 @@ kubernetes:
       appsFolder: apps-config
       argoCDValues: helms/argocd/values.yaml
     containerRegistry:
-      url: gcr.io/infinitepay-issuing
+      url: gcr.io/infinitepay-testnet
     deployConfig:
-      cluster: infinitepay-issuing-staging
+      cluster: infinitepay-testnet
       environment: development
       steps:
       - build
@@ -19,45 +19,57 @@ kubernetes:
       - deploy
       service:
         asmRevision: asm-managed
+      version: latest
   apps:
-  - name: blockscout
-    secretsManager:
-      enabled: true
-      provider: gcpsm
-    imageRepoName: blockscout
+  - name: frontend
+    imageRepoName: blockscout/frontend
     strategy:
       type: recreate
     kind: deployment
     replicas: 1
     envs:
-    - name: ETHEREUM_JSONRPC_WS_URL
-      value: 'ws://tracing-0.tracing.substrate-development.svc.cluster.local:9946'
-    - name: ETHEREUM_JSONRPC_HTTP_URL
-      value: 'http://tracing-0.tracing.substrate-development.svc.cluster.local:9934'
-    - name: ETHEREUM_JSONRPC_VARIANT
-      value: geth
-    - name: PORT
-      value: "4000"
-    - name: NETWORK
-      value: "CloudWalk"
-    - name: SUBNETWORK
-      value: "Devnet"
-    - name: SUPPORTED_CHAINS
-      value: '[ { "title": "CloudWalk Mainnet", "url": "https://explorer.mainnet.cloudwalk.io/", "test_net?": false }, { "title": "CloudWalk Testnet", "url": "https://explorer.testnet.cloudwalk.io/", "test_net?": true } ]'
-    - name: LOGO
-      value: /images/cloudwalk_full.png
-    - name: LOGO_FOOTER
-      value: /images/cloudwalk_full.png
-    - name: POOL_SIZE
-      value: '5'
-    - name: POOL_SIZE_API
-      value: '5'
-    - name: BLOCKSCOUT_VERSION
-      value: 4.1.1-beta
-    - name: RELEASE_LINK
-      value: https://github.com/cloudwalk/blockscout/releases/tag/v4.1.1-beta
-    - name: INDEXER_MEMORY_LIMIT
-      value: '2Gb'
+    - name: NEXT_PUBLIC_API_HOST
+      value: "api.devnet.cloudwalk.io"
+    - name: NEXT_PUBLIC_API_PROTOCOL
+      value: "https"
+    - name: NEXT_PUBLIC_API_PORT
+      value: "443"
+    - name: NEXT_PUBLIC_STATS_API_HOST
+      value: "http://backend:8080"
+    - name: NEXT_PUBLIC_NETWORK_NAME
+      value: "Awesome chain"
+    - name: NEXT_PUBLIC_NETWORK_SHORT_NAME
+      value: "Awesome chain"
+    - name: NEXT_PUBLIC_NETWORK_ID
+      value: "5"
+    - name: NEXT_PUBLIC_NETWORK_CURRENCY_NAME
+      value: "Ether"
+    - name: NEXT_PUBLIC_NETWORK_CURRENCY_SYMBOL
+      value: "ETH"
+    - name: NEXT_PUBLIC_NETWORK_CURRENCY_DECIMALS
+      value: "18"
+    - name: NEXT_PUBLIC_API_BASE_PATH
+      value: "/"
+    - name: NEXT_PUBLIC_APP_HOST
+      value: "api.devnet.cloudwalk.io"
+    - name: NEXT_PUBLIC_APP_PROTOCOL
+      value: "https"
+    - name: NEXT_PUBLIC_HOMEPAGE_CHARTS
+      value: '["daily_txs"]'
+    - name: NEXT_PUBLIC_VISUALIZE_API_HOST
+      value: "http://backend:8081"
+    - name: NEXT_PUBLIC_IS_TESTNET
+      value: "true"
+    - name: NEXT_PUBLIC_API_WEBSOCKET_PROTOCOL
+      value: "wss"
+    - name: NEXT_PUBLIC_API_SPEC_URL
+      value: "https://raw.githubusercontent.com/blockscout/blockscout-api-v2-swagger/main/swagger.yaml"
+    - name: NEXT_PUBLIC_IS_L2_NETWORK
+      value: "true"
+    - name: NEXT_PUBLIC_L1_BASE_URL
+      value: "https://eth-sepolia.g.alchemy.com/v2/JSpouDMyD5PzFXEU63caxbH9hx90FO-l/"
+    - name: NEXT_PUBLIC_L2_WITHDRAWAL_URL
+      value: "https://api.devnet.cloudwalk.io/bridge/withdraw"
     resources:
       limits:
         cpu: 1000m
@@ -67,19 +79,230 @@ kubernetes:
         memory: 3Gi
     service:
       istio: false
-      metrics:
-        port: "4000"
-        path: "/metrics"
       healthcheck:
-        initialDelaySeconds: 120
+        initialDelaySeconds: 30
+        interval: 10
+        path: /
+        port: 3000
+        timeoutSeconds: 15
+      ports:
+      - containerPort: 3000
+        name: app
+        virtualservice:
+          gateway: default
+          hosts:
+          - explorer.devnet.cloudwalk.io
+  - name: backend
+    command: 
+    - "/bin/sh"
+    args:
+    - "-c"
+    - "bin/blockscout eval \"Elixir.Explorer.ReleaseTasks.create_and_migrate()\" && bin/blockscout start"
+    imageRepoName: blockscout/backend
+    secretsManager:
+      enabled: true
+      provider: gcpsm
+    strategy:
+      type: recreate
+    kind: deployment
+    replicas: 1
+    envs:
+    - name: EHEREUM_JSONRPC_VARIANT
+      value: "geth"
+    - name: ETHEREUM_JSONRPC_HTTP_URL
+      value: "http://34.95.151.76:8545/"
+    - name: ETHEREUM_JSONRPC_TRACE_URL
+      value: "http://34.95.151.76:8545/"
+    - name: SUBNETWORK
+      value: "Awesome chain"
+    - name: LOGO
+      value: "/images/blockscout_logo.svg"
+    - name: ETHEREUM_JSONRPC_TRANSPORT
+      value: "http"
+    - name: ETHEREUM_JSONRPC_DISABLE_ARCHIVE_BALANCES
+      value: "false"
+    - name: NETWORK_PATH
+      value: "/"
+    - name: PORT
+      value: "4000"
+    - name: EMISSION_FORMAT
+      value: "DEFAULT"
+    - name: POOL_SIZE
+      value: "80"
+    - name: POOL_SIZE_API
+      value: "10"
+    - name: ECTO_USE_SSL
+      value: "false"
+    - name: HEART_BEAT_TIMEOUT
+      value: "30"
+    - name: BLOCK_TRANSFORMER
+      value: "base"
+    - name: FOOTER_LOGO
+      value: "/images/blockscout_logo.svg"
+    - name: FOOTER_LINK_TO_OTHER_EXPLORERS
+      value: "false"
+    - name: FOOTER_OTHER_EXPLORERS
+      value: "{}"
+    - name: SUPPORTED_CHAINS
+      value: "{}"
+    - name: CACHE_BLOCK_COUNT_PERIOD
+      value: "7200"
+    - name: CACHE_TXS_COUNT_PERIOD
+      value: "7200"
+    - name: CACHE_ADDRESS_SUM_PERIOD
+      value: "3600"
+    - name: CACHE_TOTAL_GAS_USAGE_PERIOD
+      value: "3600"
+    - name: CACHE_ADDRESS_TRANSACTIONS_GAS_USAGE_COUNTER_PERIOD
+      value: "1800"
+    - name: CACHE_TOKEN_HOLDERS_COUNTER_PERIOD
+      value: "3600"
+    - name: CACHE_TOKEN_TRANSFERS_COUNTER_PERIOD
+      value: "3600"
+    - name: CACHE_ADDRESS_WITH_BALANCES_UPDATE_INTERVAL
+      value: "1800"
+    - name: CACHE_AVERAGE_BLOCK_PERIOD
+      value: "1800"
+    - name: CACHE_MARKET_HISTORY_PERIOD
+      value: "21600"
+    - name: CACHE_ADDRESS_TRANSACTIONS_COUNTER_PERIOD
+      value: "1800"
+    - name: CACHE_ADDRESS_TOKENS_USD_SUM_PERIOD
+      value: "3600"
+    - name: CACHE_ADDRESS_TOKEN_TRANSFERS_COUNTER_PERIOD
+      value: "1800"
+    - name: TOKEN_METADATA_UPDATE_INTERVAL
+      value: "172800"
+    - name: CONTRACT_VERIFICATION_ALLOWED_SOLIDITY_EVM_VERSIONS
+      value: "homestead,tangerineWhistle,spuriousDragon,byzantium,constantinople,petersburg,istanbul,berlin,london,paris,shanghai,default"
+    - name: CONTRACT_VERIFICATION_ALLOWED_VYPER_EVM_VERSIONS
+      value: "byzantium,constantinople,petersburg,istanbul,berlin,paris,shanghai,default"
+    - name: CONTRACT_MAX_STRING_LENGTH_WITHOUT_TRIMMING
+      value: "2040"
+    - name: UNCLEs_IN_AVERAGE_BLOCK_TIME
+      value: "false"
+    - name: DISABLE_WEBAPP
+      value: "false"
+    - name: API_V1_READ_METHODS_DISABLED
+      value: "false"
+    - name: API_V1_WRITE_METHODS_DISABLED
+      value: "false"
+    - name: DISABLE_INDEXER
+      value: "false"
+    - name: DISABLE_REALTIME_INDEXER
+      value: "false"
+    - name: INDEXER_DISABLE_TOKEN_INSTANCE_REALTIME_FETCHER
+      value: "false"
+    - name: INDEXER_DISABLE_TOKEN_INSTANCE_RETRY_FETCHER
+      value: "false"
+    - name: INDEXER_DISABLE_TOKEN_INSTANCE_SANITIZE_FETCHER
+      value: "false"
+    - name: INDEXER_DISABLE_TOKEN_INSTANCE_LEGACY_SANITIZE_FETCHER
+      value: "false"
+    - name: INDEXER_DISABLE_PENDING_TRANSACTIONS_FETCHER
+      value: "false"
+    - name: INDEXER_DISABLE_INTERNAL_TRANSACTIONS_FETCHER
+      value: "false"
+    - name: SHOW_ADDRESS_MARKETCAP_PERCENTAGE
+      value: "true"
+    - name: CHECKSUM_ADDRESS_HASHES
+      value: "true"
+    - name: CHECKSUM_FUNCTION
+      value: "eth"
+    - name: DISABLE_EXCHANGE_RATES
+      value: "true"
+    - name: TXS_STATS_ENABLED
+      value: "true"
+    - name: SHOW_PRICE_CHART
+      value: "false"
+    - name: SHOW_PRICE_CHART_LEGEND
+      value: "false"
+    - name: SHOW_TXS_CHART
+      value: "true"
+    - name: TXS_HISTORIAN_INIT_LAG
+      value: "0"
+    - name: TXS_STATS_DAYS_TO_COMPILE_AT_INIT
+      value: "10"
+    - name: COIN_BALANCE_HISTORY_DAYS
+      value: "90"
+    - name: APPS_MENU
+      value: "true"
+    - name: EXTERNAL_APPS
+      value: "[]"
+    - name: SHOW_MAINTENANCE_ALERT
+      value: "false"
+    - name: SOURCIFY_INTEGRATION_ENABLED
+      value: "false"
+    - name: MAX_SIZE_UNLESS_HIDE_ARRAY
+      value: "50"
+    - name: HIDE_BLOCK_MINER
+      value: "false"
+    - name: DISPLAY_TOKEN_ICONS
+      value: "false"
+    - name: SHOW_TENDERLY_LINK
+      value: "false"
+    - name: RE_CAPTCHA_DISABLED
+      value: "false"
+    - name: API_RATE_LIMIT_TIME_INTERVAL
+      value: "1s"
+    - name: API_RATE_LIMIT_BY_IP_TIME_INTERVAL
+      value: "5m"
+    - name: API_RATE_LIMIT
+      value: "50"
+    - name: API_RATE_LIMIT_BY_KEY
+      value: "50"
+    - name: API_RATE_LIMIT_BY_WHITELISTED_IP
+      value: "50"
+    - name: API_RATE_LIMIT_UI_V2_WITH_TOKEN
+      value: "5"
+    - name: API_RATE_LIMIT_BY_IP
+      value: "3000"
+    - name: API_RATE_LIMIT_UI_V2_TOKEN_TTL_IN_SECONDS
+      value: "18000"
+    - name: FETCH_REWARDS_WAY
+      value: "trace_block"
+    - name: MICROSERVICE_SC_VERIFIER_ENABLED
+      value: "true"
+    - name: MICROSERVICE_SC_VERIFIER_URL
+      value: "https://eth-bytecode-db.services.blockscout.com/"
+    - name: MICROSERVICE_SC_VERIFIER_TYPE
+      value: "eth_bytecode_db"
+    - name: MICROSERVICE_ETH_BYTECODE_DB_INTERVAL_BETWEEN_LOOKUPS
+      value: "10m"
+    - name: MICROSERVICE_ETH_BYTECODE_DB_MAX_LOOKUPS_CONCURRENCY
+      value: "10"
+    - name: MICROSERVICE_VISUALIZE_SOL2UML_ENABLED
+      value: "true"
+    - name: MICROSERVICE_SIG_PROVIDER_ENABLED
+      value: "true"
+    - name: DECODE_NOT_A_CONTRACT_CALLS
+      value: "true"
+    - name: ACCOUNT_ENABLED
+      value: "false"
+    - name: EIP_1559_ELASTICITY_MULTIPLIER
+      value: "2"
+    - name: API_V2_ENABLED
+      value: "true"
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 4Gi
+      requests:
+        cpu: 1000m
+        memory: 3Gi
+    service:
+      istio: false
+      healthcheck:
+        initialDelaySeconds: 30
         interval: 10
         path: /
         port: 4000
         timeoutSeconds: 15
       ports:
-        - containerPort: 4000
-          name: app
-          virtualservice:
-            gateway: default
-            hosts:
-              - blockscout.dev.services.issuing.infinitepay.io
+      - containerPort: 4000
+        name: app-backend
+        virtualservice:
+          gateway: default
+          hosts:
+          - explorer-api.devnet.cloudwalk.io
+          - api.devnet.cloudwalk.io

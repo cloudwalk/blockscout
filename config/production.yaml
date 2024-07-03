@@ -10,7 +10,7 @@ kubernetes:
     containerRegistry:
       url: gcr.io/infinitepay-mainnet
     deployConfig:
-      cluster: infinitepay-mainnet
+      cluster: mainnet
       environment: production
       steps:
       - build
@@ -19,19 +19,28 @@ kubernetes:
       - deploy
       service:
         asmRevision: asm-managed
+      version: 03ea334de5bbcf39c2e08ce9f958f3a6420eb97d
   apps:
-  - name: blockscout
+  - name: blockscoutapp
     secretsManager:
       enabled: true
       provider: gcpsm
     imageRepoName: blockscout
     kind: deployment
     replicas: 1
+    tolerations:
+    - key: worker_type
+      value: highcpu
+    affinity:
+      type: required
+      conditions:
+      - key: cloud.google.com/gke-nodepool
+        value: highcpu
     envs:
     - name: ETHEREUM_JSONRPC_WS_URL
-      value: ws://cloudwalk-network-bs.cloudwalk-network-production:9946
+      value: ws://bs.mainnet.cloudwalk.network:9946
     - name: ETHEREUM_JSONRPC_HTTP_URL
-      value: http://cloudwalk-network-bs.cloudwalk-network-production:9934
+      value: http://bs.mainnet.cloudwalk.network:9934
     - name: ETHEREUM_JSONRPC_VARIANT
       value: geth
     - name: PORT
@@ -59,9 +68,9 @@ kubernetes:
     - name: TRACE_LAST_BLOCK
       value: '0'
     - name: POOL_SIZE
-      value: '15'
+      value: '30'
     - name: POOL_SIZE_API
-      value: '15'
+      value: '30'
     - name: QUEUE_TARGET
       value: '5000'
     - name: QUEUE_INTERVAL
@@ -71,11 +80,14 @@ kubernetes:
     resources:
       limits:
         cpu: 12000m
-        memory: 12Gi
+        memory: 10Gi
       requests:
         cpu: 12000m
-        memory: 12Gi
+        memory: 10Gi
     service:
+      metrics:
+        port: '4000'
+        path: /metrics
       healthcheck:
         initialDelaySeconds: 30
         interval: 10
@@ -83,10 +95,89 @@ kubernetes:
         port: 4000
         timeoutSeconds: 15
       ports:
-        - containerPort: 4000
-          name: app
-          virtualservice:
-            gateway: default
-            hosts:
-              - blockscout.services.mainnet.cloudwalk.io
-              - explorer.mainnet.cloudwalk.io
+      - containerPort: 4000
+        name: appinternal
+        virtualservice:
+          gateway: internal
+          hosts:
+          - explorer.mainnet.cloudwalk.network
+  - name: blockscout-stratus
+    secretsManager:
+      enabled: true
+      provider: gcpsm
+    imageRepoName: blockscout
+    kind: deployment
+    replicas: 1
+    tolerations:
+    - key: worker_type
+      value: highcpu
+    affinity:
+      type: required
+      conditions:
+      - key: cloud.google.com/gke-nodepool
+        value: highcpu
+    envs:
+    - name: ETHEREUM_JSONRPC_WS_URL
+      value: ws://10.41.128.63:9946
+    - name: ETHEREUM_JSONRPC_HTTP_URL
+      value: http://10.41.128.63:9934
+    - name: ETHEREUM_JSONRPC_VARIANT
+      value: geth
+    - name: PORT
+      value: '4000'
+    - name: NETWORK
+      value: CloudWalk
+    - name: SUBNETWORK
+      value: Mainnet
+    - name: SUPPORTED_CHAINS
+      value: '[ { "title": "CloudWalk Mainnet", "url": "https://explorer.mainnet.cloudwalk.io/",
+        "test_net?": false }, { "title": "CloudWalk Testnet", "url": "https://explorer.testnet.cloudwalk.io/",
+        "test_net?": true } ]'
+    - name: LOGO
+      value: /images/cloudwalk_full.png
+    - name: LOGO_FOOTER
+      value: /images/cloudwalk_full.png
+    - name: BLOCKSCOUT_VERSION
+      value: 4.1.1-beta
+    - name: RELEASE_LINK
+      value: https://github.com/cloudwalk/blockscout/releases/tag/v4.1.1-beta
+    - name: INDEXER_DISABLE_PENDING_TRANSACTIONS_FETCHER
+      value: 'true'
+    - name: INDEXER_DISABLE_INTERNAL_TRANSACTIONS_FETCHER
+      value: 'true'
+    - name: TRACE_LAST_BLOCK
+      value: '0'
+    - name: POOL_SIZE
+      value: '30'
+    - name: POOL_SIZE_API
+      value: '30'
+    - name: QUEUE_TARGET
+      value: '5000'
+    - name: QUEUE_INTERVAL
+      value: '10000'
+    - name: INDEXER_MEMORY_LIMIT
+      value: '5Gb'
+    resources:
+      limits:
+        cpu: 12000m
+        memory: 10Gi
+      requests:
+        cpu: 12000m
+        memory: 10Gi
+    service:
+      metrics:
+        port: '4000'
+        path: /metrics
+      healthcheck:
+        initialDelaySeconds: 30
+        interval: 10
+        path: /
+        port: 4000
+        timeoutSeconds: 15
+      ports:
+      - containerPort: 4000
+        name: stratus-http
+        virtualservice:
+          gateway: internal
+          hosts:
+          - explorer-stratus.mainnet.cloudwalk.network
